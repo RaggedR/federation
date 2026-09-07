@@ -1,0 +1,476 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fontspec}
+\setmainfont{lmroman10-regular.otf}[
+  BoldFont=lmroman10-bold.otf,
+  ItalicFont=lmroman10-italic.otf,
+  BoldItalicFont=lmroman10-bolditalic.otf,
+]
+\setmonofont{Menlo}[Scale=0.86, Ligatures=NoCommon]
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{seclink}{HTML}{1F4E8C}
+\usepackage[colorlinks=true,linkcolor=seclink,citecolor=seclink,urlcolor=blue]{hyperref}
+\usepackage{parskip}
+\usepackage{fancyvrb}
+\usepackage[most]{tcolorbox}
+
+\definecolor{yellowbg}{HTML}{FBF3D5}
+\definecolor{pinkbg}{HTML}{FADDE1}
+\definecolor{bluebg}{HTML}{E8EEF7}
+
+\tcbset{plainbg/.style={boxrule=0pt, sharp corners, colframe=white,
+  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm,
+  before upper={\setlength{\parskip}{0.6\baselineskip}}}}
+\newtcolorbox{sectionbox}{plainbg, colback=yellowbg}
+\newtcolorbox{alarmbox}{plainbg, colback=pinkbg}
+\newtcolorbox{notebox}{plainbg, colback=bluebg}
+
+\DefineVerbatimEnvironment{term}{Verbatim}{fontsize=\footnotesize, xleftmargin=0mm}
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small, xleftmargin=0mm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{claim}{Claim}
+\newtheorem*{obs}{Observation}
+
+\title{\vspace{-2em}Almost Computable}
+\author{\normalsize The Myhill--Nerode quotient of a directed container\\[0.2em]
+\normalsize is the cover its cohomology class demands}
+\date{\normalsize Claude, 7 September 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1em}
+
+\begin{sectionbox}
+Two pieces of work in this collection were written two months apart, with no
+shared vocabulary and no cross-reference. \emph{Coloured Graphs as Directed
+Containers} is from July. It builds the path directed container of a graph, asks
+when a labelling of its positions is computable, and grades the failure by how
+fast a partition refinement splits. The federation programs are from September.
+They put three servers in a ring, read off a class in $H^1(S^1;\mathbb{Z}/2)$,
+and pay for a centre by passing to a double cover.
+
+The July document does not contain the words cohomology, sheaf, monodromy,
+cocycle or cover. Not once. The September documents do not contain the words
+Myhill--Nerode, refinement or computable labelling.
+
+They are the same construction. Running the July refinement on the September
+ring produces the September double cover, node for node, with the section as its
+state set. This note demonstrates that, states what each side gains from the
+other, and corrects one claim in \texttt{sheaf-federation.pdf} that the
+identification shows to be wrong.
+\end{sectionbox}
+
+\section{Where the files are}
+
+Full paths, verified at the time of writing.
+
+\medskip
+\textbf{The July work.} A repository at \texttt{git@github.com:RaggedR/category.git}.
+
+\begin{term}
+/Users/robin/git/category/category-theory/knowledge-graph/
+    coloured-graphs-as-directed-containers.tex     2072 lines,  78514 bytes
+    coloured-graphs-as-directed-containers.pdf                 188224 bytes
+    refinement_experiment.py                         54 lines,   1569 bytes
+    series_mod2.py                                   62 lines,   1707 bytes
+    split_locations.py                               57 lines,   1984 bytes
+\end{term}
+
+The relevant sections of that document are \S\,``Computations on directed
+graphs'', \S\,``Directed Containers'' with Theorem~\ref{thm:july} below,
+\S\,``The computable case: coKleisli collapses to pure functions'' with its two
+closing remarks, and \S\,``Almost computable: Sturmian sequences'' with its
+experiment.
+
+\medskip
+\textbf{A shorter document of the same name}, which is a different text and not
+a copy. No git remote.
+
+\begin{term}
+/Users/robin/git/kodamai-knowledge-graph/
+    coloured-graphs-as-directed-containers.tex      409 lines,  17649 bytes
+    coloured-graphs-as-directed-containers.pdf
+\end{term}
+
+\medskip
+\textbf{Other directed-container material.} Of the two directories below only
+\texttt{macbeth-seed} has a git remote, and it is
+\texttt{git@github.com:RaggedR/macbeth-seed.git}\@.
+
+\begin{term}
+/Users/robin/git/typed-agents/hris-directed-containers.tex      643 lines
+/Users/robin/git/typed-agents/directed-graphs.tex              1004 lines
+/Users/robin/git/macbeth-seed/learning/directed-containers.tex  964 lines
+/Users/robin/git/macbeth-seed/learning/directed-categories.tex
+/Users/robin/git/macbeth-seed/learning/directed-containers-tax.tex
+/Users/robin/git/macbeth-seed/pdf/directed-containers/
+/Users/robin/git/macbeth-seed/notes/DIRECTED_CONTAINER.md
+/Users/robin/git/macbeth-seed/notes/LYRA_DIRECTED_CONTAINER.md
+/Users/robin/git/macbeth-seed/notes/UMBRAL_DIRECTED_CONTAINER.md
+/Users/robin/git/macbeth-seed/notes/GA_DIRECTED_CONTAINER.md
+/Users/robin/git/macbeth-seed/notes/ETHEREUM_COMPOSE_DIRECTED_CONTAINER.md
+\end{term}
+
+Also relevant, and both with remotes:
+\texttt{git@github.com:RaggedR/social-network.git}, which treats social networks
+as directed container comonads, and the private \texttt{RaggedR/marie-claire},
+which is a Haskell system built on directed containers with a Lean twin.
+
+\medskip
+\textbf{The September work.} A repository at
+\texttt{git@github.com:RaggedR/federation.git}, public.
+
+\begin{term}
+/Users/robin/git/gold/federation/
+    federation.pdf            The Missing Trace
+    sheaf-federation.pdf      A Sheaf Theory of Federation
+    seven-federations.pdf     The Root Outside the Set
+    mobius.pdf                the program, in container language
+    cocycle.ts                the mathematics, no IO           404 lines
+    mobius.server.ts          one arc of the cover
+    mobius.ts                 the CLI
+    mobius-type-tests.ts      the cohomology, asserted to the compiler
+    lib/algebra.ts            the four combinators, first class
+    lib/wire.ts               the boundary
+\end{term}
+
+\section{The two constructions}
+
+\subsection{July: the path container of a graph, and when a labelling is computable}
+
+Take a directed graph $G$. The container has one shape per vertex, and the
+positions over a vertex $v$ are the finite paths out of $v$.
+
+\begin{theorem}[July, \S\,Directed Containers]
+\label{thm:july}
+Every computable directed graph $G$ determines a computable directed container
+$(V_G, P_G)$, with root the empty path, sub-shape $v \downarrow p =
+\mathrm{end}(p)$, and shift given by concatenation.
+\end{theorem}
+
+Positions are paths rather than edges for a stated reason. The shift has to
+compose two positions, and the concatenation of two edges is not an edge, while
+the concatenation of two paths is a path.
+
+A directed container is a comonad, so there is a coKleisli category. Label each
+vertex with a value in $X$ and each edge with a function of the right type. A
+labelling $\ell$ of paths is called \emph{computable} when it is a fold of the
+edge functions,
+\[
+  \ell(p) = (f_{e_n} \circ \cdots \circ f_{e_1})(x_0),
+  \qquad
+  F(p \oplus q) = F(q) \circ F(p),
+  \qquad
+  F(\mathrm{root}) = \mathrm{id}.
+\]
+Those two equations are exactly the directed container laws. The counit reads
+the present value. The comultiplication decorates every path with its whole
+future. The collapse theorem says that on computable labellings the future is
+determined by the present, so every coKleisli map factors through the counit and
+coKleisli composition becomes ordinary composition.
+
+\begin{notebox}
+\textbf{The sentence this note is built on}, quoted from
+\S\,``The computable case''.
+
+\emph{Hidden state is precisely the failure of a map to factor through
+$\varepsilon$.}
+\end{notebox}
+
+Then an algorithm. Group paths by their end vertex. Refine by comparing
+continuations one level deeper. Repeat until a round splits nothing. The
+resulting classes are the Myhill--Nerode classes, and their number at a vertex
+is the memory an implementation needs there. The document grades the outcome. A
+labelling is $N$-not-computable if a split occurs at step $N$, and computable
+exactly when that happens for only finitely many $N$. Sturmian labellings split
+once per level forever, as slowly as an infinite refinement can, and those are
+the almost computable ones.
+
+\subsection{September: three arcs, and the class the ring carries}
+
+Cover the circle with three arcs, each slightly over a third. Coefficients in
+$\mathbb{Z}/2$, one sign per overlap. The first cohomology is $\mathbb{Z}/2$,
+so there are two classes. Product $+1$ is the cylinder and product $-1$ is the
+M\"obius band. Three servers form the ring, each a container and each a morphism,
+and the sign is applied in the backward map and nowhere else.
+
+The class is paid off by passing to the double cover. Six servers carry the base
+data repeated, a section exists upstairs in both classes, and the deck
+transformation $\sigma(i) = i+3$ separates them. Full detail is in
+\texttt{mobius.pdf}.
+
+\section{The dictionary}
+
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.3cm}>{\raggedright\arraybackslash}p{7.5cm}@{}}
+\toprule
+\textbf{July} & \textbf{September} \\
+\midrule
+path directed container of $G$ & the ring of servers, one node per arc \\
+edge function $f_e$ & the transition function on that overlap \\
+the fold $F(p)$ & what \verb|Ask| accumulates in the backward maps \\
+$F(p \oplus q) = F(q) \circ F(p)$ & the sign lives in the backward map \\
+computable labelling & well-formed descent data \\
+one class per vertex & a global section exists \\
+Myhill--Nerode classes & the fibres of the minimal trivialising cover \\
+class count per vertex & the index of that cover \\
+memory needed at a vertex & the price of a centre \\
+$F^n$ at refinement depth $n$ & \verb|Unroll| with fuel $n$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Two entries in that table deserve emphasis before the demonstration.
+
+The fold law and the design constraint of the ring are the same equation. July
+requires $F(p \oplus q) = F(q) \circ F(p)$ because that is what a directed
+container's shift demands. September requires the sign to be applied on the way
+back because descent data acts on sections and sections come back. Neither
+document notices that the other has written down its own constraint.
+
+And \verb|Unroll| is the refinement, one level at a time. The fibre returns
+\verb|Exhausted| at every fuel, which says the initial algebra of the loop
+composite is empty. The refinement's depth-$n$ table is the same object.
+
+\section{The identification, demonstrated}
+
+The refinement of \S\,``partition refinement'' was run on the path container of
+the directed 3-cycle, with the edge functions being the M\"obius signs and then
+the cylinder signs. The implementation groups paths by end vertex, then splits by
+comparing continuations one level deeper, until a round splits nothing.
+
+\begin{term}
+mobius     signs=[1, 1, -1]  class count by step: [3, 6, 6, 6]
+           stabilises at 6 classes;  reachable (vertex,value) pairs: 6
+           [(0, -1), (0, 1), (1, -1), (1, 1), (2, -1), (2, 1)]
+           quotient is a single cycle of length 6: [(0, -1), (1, -1), (2, -1), (0, 1), (1, 1), (2, 1)]
+
+cylinder   signs=[1, 1, 1]  class count by step: [3, 3, 3, 3]
+           stabilises at 3 classes;  reachable (vertex,value) pairs: 3
+           [(0, 1), (1, 1), (2, 1)]
+           quotient is a single cycle of length 3: [(0, 1), (1, 1), (2, 1)]
+\end{term}
+
+Read the M\"obius line against the program. The refinement splits once, from
+three classes to six, and the quotient is a single 6-cycle. That is the ring
+\texttt{./mobius-up.sh -\/-cover 2} brings up on ports 8811 to 8816. The values
+attached to the six classes are $+1,+1,+1,-1,-1,-1$, which is the section
+\texttt{./mobius cover 2} builds from node $0$ and installs one value per node.
+The cylinder stabilises at three classes and its quotient is the base.
+
+\begin{sectionbox}
+\textbf{The identification.} The Myhill--Nerode quotient of the path container
+is the cover that the cohomology class determines, and the classes are the
+section. The minimal machine for a labelling has one state per reachable pair
+$\langle \mathrm{end}(p), \ell(p) \rangle$, and its transition is
+$(v,x) \mapsto (v+1,\, g_v \cdot x)$. That is the definition of the cover
+associated to $\alpha : \pi_1 \to \mathbb{Z}/2$, and the transition is the
+deck action.
+\end{sectionbox}
+
+The count is not a coincidence of $\mathbb{Z}/2$. Replacing the coefficients by
+$\mathbb{Z}/m$ with one twist on the last edge gives a holonomy of order $m$,
+and the class count follows it exactly.
+
+\begin{term}
+=== the minimal cover, for a 3-cycle with holonomy of order m ===
+  Z/1: holonomy order  1   classes   3   = 3 x 1
+  Z/2: holonomy order  2   classes   6   = 3 x 2
+  Z/3: holonomy order  3   classes   9   = 3 x 3
+  Z/4: holonomy order  4   classes  12   = 3 x 4
+  Z/6: holonomy order  6   classes  18   = 3 x 6
+\end{term}
+
+Stated carefully, the class count at a vertex is the size of the orbit of the
+seed value under the holonomy group. That equals the index of the smallest cover
+on which this section becomes deck-invariant. When the seed is a fixed point the
+orbit is a single element, the quotient is the base, and the labelling glued
+already.
+
+\section{Three diagnoses, three outcomes}
+
+The July document ends its refinement section with a three-way diagnosis. The
+program insists on distinguishing exactly three cases, and the README says why:
+bad transition data and a non-zero class are different failures, and a
+demonstration unable to tell them apart is worthless. The lists agree.
+
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{3.9cm}@{}}
+\toprule
+\textbf{July diagnosis} & \textbf{the federation} & \textbf{what the program says} \\
+\midrule
+one class per vertex, the future depends on the vertex alone
+  & glues, a global section exists
+  & cylinder, 2 sections \\
+classes in bijection with the values, the labelling is computable
+  & computable, and still no section
+  & mobius band, 0 sections \\
+two classes sharing a value, a collision
+  & not descent data at all
+  & the descent data is malformed \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The middle row is the one that sharpens both documents.
+
+\begin{alarmbox}
+\textbf{The M\"obius federation is computable.} Its labelling is a fold of edge
+functions, which is exactly what \verb|Ask| accumulates. There is no collision
+witness and nothing is uncomputable. What fails is only that the labelling is a
+function of the \emph{path} and not of the \emph{endpoint}.
+
+Descent asks for a labelling that factors through \verb|end|. The comonad
+delivers one that factors through the path. The cohomology class measures the
+gap, and by the July sentence quoted above, a non-zero class \emph{is} hidden
+state. Here it is one bit of it.
+\end{alarmbox}
+
+The third row is a conjecture and is not demonstrated. Malformed transition data
+should destroy the fold equation and so produce a collision witness, but the
+argument is delicate and I have not run it. On the directed 3-cycle each node
+applies its own sign when crossing outwards, so a cw-only path container still
+has a well-defined edge function per edge and there is no collision. The
+disagreement between neighbours is only visible once both directions are
+positions, and the doubled graph needs its own refinement run. That is the first
+thing to check.
+
+\section{What the price of a centre actually is}
+
+\texttt{sheaf-federation.pdf} says the centre is available at the price of
+infinitely many copies of the federation. The identification shows that this is
+wrong as stated, and shows what the right statement is.
+
+The Myhill--Nerode quotient is the \emph{minimal} cover on which the section
+becomes deck-invariant. Its index is the order of the holonomy. So with a finite
+coefficient group and honest descent data, the price of a centre is always
+finite, and it is exactly the order of the holonomy. For $\mathbb{Z}/2$ it is
+two copies and six nodes, which the program pays in full.
+
+The universal cover is a different object and a much larger bill. Consider the
+figure-eight graph, one vertex and two independent loops, with coefficients in
+$\mathbb{Z}/2$.
+
+\begin{term}
+=== figure-8: two independent loops, Z/2 coefficients ===
+  minimal cover: 2 classes
+  universal cover of the figure-8 is the infinite 4-regular tree
+\end{term}
+
+Two classes. The fundamental group is free of rank two and the universal cover
+is an infinite tree, so passing to it would buy infinitely many copies in order
+to kill a class that two copies already kill.
+
+\begin{sectionbox}
+\textbf{The correction.} Passing to the universal cover is sufficient and is
+almost never necessary. What the class actually costs is the index of the
+smallest cover that trivialises it, and the refinement computes that index
+rather than bounding it. For finite coefficients the cost is finite. The phrase
+``infinitely many copies'' describes one way of paying and not the price.
+\end{sectionbox}
+
+\section{Where ``almost computable'' actually lives}
+
+That correction has a consequence that surprised me, and it relocates the
+Sturmian material rather than applying it.
+
+If the coefficient group is finite and the labelling is a fold, the holonomy has
+finite order, the cover is finite, the refinement stabilises, and the labelling
+is computable. Always. So no federation with finite local state and well-formed
+descent data is ever almost computable. The whole Sturmian regime is unreachable
+from inside descent theory.
+
+There are exactly two ways out, and they are not variations of each other.
+
+\textbf{Infinite coefficients.} Take $\mathbb{Z}$ rather than $\mathbb{Z}/m$.
+The value set is infinite, so infinitely many classes appear at refinement depth
+zero and the count never grows gradually. This is worse than Sturmian rather
+than an instance of it, and the grading has little to say about it.
+
+\textbf{A labelling that is not a fold.} Keep the value set finite and give up
+the fold equation. Now the classes can be unbounded while the values are not,
+and the splitting rate becomes the interesting invariant. This is the July
+experiment. On the one-loop graph the refinement collapses to counting distinct
+windows, and the Fibonacci word attains the minimum.
+
+\begin{term}
+=== a labelling that is NOT a fold: Fibonacci word on the one-loop graph ===
+  c( 0) =   2   (n+2 = 2)
+  c( 1) =   3   (n+2 = 3)
+  c( 2) =   4   (n+2 = 4)
+  c( 3) =   5   (n+2 = 5)
+  c( 5) =   7   (n+2 = 7)
+  c( 9) =  11   (n+2 = 11)
+  c(13) =  15   (n+2 = 15)
+  c(17) =  19   (n+2 = 19)
+  c(21) =  23   (n+2 = 23)
+  c(25) =  27   (n+2 = 27)
+\end{term}
+
+One new class per level, exactly, for as far as the word was generated.
+
+\begin{sectionbox}
+\textbf{The almost computable federations are the ones that are not federations.}
+A labelling with a finite value set and an unbounded refinement is not generated
+by any assignment of functions to edges. There is no cocycle, so there is no
+class, and sheaf cohomology has nothing to say about it at all. The refinement
+still grades it, and Morse--Hedlund still says that once it is infinite it grows
+at least linearly.
+
+So the July grading is not a refinement of $H^1$ on the region where $H^1$ is
+defined. It is defined on a strictly larger region, and it agrees with $H^1$
+where they overlap. That is a better result than the one I expected to find.
+\end{sectionbox}
+
+\section{What is solid and what is modelling}
+
+\begin{alarmbox}
+\textbf{Demonstrated in this note.} The refinement on the M\"obius ring gives six
+classes, the quotient is the 6-cycle, and the classes carry the section
+$+,+,+,-,-,-$. The class count is three times the order of the holonomy, for
+$m = 1,2,3,4,6$. The figure-eight with $\mathbb{Z}/2$ coefficients has a
+two-element minimal cover. The Fibonacci word gives $c(n) = n+2$ to depth
+twenty-five.
+
+\textbf{Solid, and neither mine nor in question.} Theorem~\ref{thm:july} and the
+coKleisli collapse are July's. Myhill--Nerode, Morse--Hedlund and the
+classification of covers by subgroups of $\pi_1$ are standard.
+
+\textbf{Conjectured.} That malformed descent data is exactly the collision case.
+That the identification of the Myhill--Nerode quotient with the minimal
+trivialising cover holds for non-abelian coefficient groups, where $H^1$ is a
+pointed set rather than a group and the orbit argument needs redoing.
+
+\textbf{Open, and the reason to write this down.} Degree two. The triple overlap
+of the three-arc cover is empty, so the cocycle condition is vacuous, and
+nothing in the July document is about coherence either. Both constructions stop
+at the same place for the same reason. A fourth arc, or a two-dimensional base,
+is where either of them would first have something new to say.
+\end{alarmbox}
+
+\section{What to do next}
+
+Three things, smallest first.
+
+Run the refinement on the doubled graph, where both directions are positions,
+and check whether malformed descent data produces a collision witness. That
+settles the third row of the table in \S5 and it is an afternoon.
+
+Replace $\mathbb{Z}/2$ by a non-abelian group. The smallest useful choice is
+$S_3 \cong \mathrm{GL}_2(\mathbb{F}_2)$, where the classes are the conjugacy
+classes and there are three of them rather than two. The prediction is that the
+refinement returns three distinct minimal covers, of index one, two and three.
+That is falsifiable, and it closes three limitations the federation README
+currently admits to: the coefficients would stop being abelian, the two
+directions round the ring would stop agreeing, and the forward map would acquire
+real work.
+
+Then degree two, which is the only one that is research rather than
+implementation.
+
+\end{document}
