@@ -13,6 +13,7 @@ import type {
   Bounded,
   Carried,
   Chain0,
+  DeckReport,
   EdgeReport,
   LocalReport,
   LoopClosed,
@@ -35,6 +36,7 @@ const decoders = {
   Unroll: (u: unknown) => u as Bounded,
   Orient: (u: unknown) => u as Carried,
   Walk: (u: unknown) => u as LoopClosed,
+  Deck: (u: unknown) => u as DeckReport,
 };
 
 const n0 = leaf<NodeC>("n0", 8811, decoders);
@@ -130,6 +132,55 @@ expect<Chain0>([1, 1, -1]);
 expect<Chain0>([1, -1]);
 // @ts-expect-error  and four is a different computation
 expect<Chain0>([1, 1, 1, -1]);
+
+// ── 5a. The double cover, and p*alpha = 0, in the checker ─────────────
+// The n-fold cover of S^1 pulls a 3-arc cover back to 3n arcs, with the
+// upstairs data the downstairs data repeated. For n = 2 that is six.
+
+type Pullback<G extends Chain0> = [G[0], G[1], G[2], G[0], G[1], G[2]];
+type Prod6<T extends [Sign, Sign, Sign, Sign, Sign, Sign]> = Mul<
+  Mul<Mul<Mul<Mul<T[0], T[1]>, T[2]>, T[3]>, T[4]>,
+  T[5]
+>;
+
+// 3n arcs for n = 2.
+expect<Pullback<[1, 1, -1]>["length"]>(6);
+// @ts-expect-error  the cover is not the base, and it is not three arcs
+expect<Pullback<[1, 1, -1]>["length"]>(3);
+
+// p*alpha = 0. The product upstairs is +1 for BOTH classes, which is why the
+// closure check separates nothing and why a section exists at all.
+expect<Prod6<Pullback<[1, 1, 1]>>>(1);
+expect<Prod6<Pullback<[1, 1, -1]>>>(1);
+// @ts-expect-error  the twist really is dead upstairs, in the non-trivial class too
+expect<Prod6<Pullback<[1, 1, -1]>>>(-1);
+
+// The section upstairs, s_0 = +1 and s_(i+1) = eps_i . s_i, written out.
+type Sec<G extends Chain0> = [
+  1,
+  G[0],
+  Mul<G[0], G[1]>,
+  Prod<G>,
+  Mul<Prod<G>, G[0]>,
+  Mul<Mul<Prod<G>, G[0]>, G[1]>,
+];
+
+// It closes: eps_5 . s_5 = s_0 = +1. Both classes, and this is the assertion a
+// reader must NOT stop at.
+type Closes<G extends Chain0> = Mul<G[2], Sec<G>[5]>;
+
+expect<Closes<[1, 1, 1]>>(1);
+expect<Closes<[1, 1, -1]>>(1);
+
+// And the deck transformation, sigma(i) = i + 3, which is where the two classes
+// finally part: sigma*s = (prod g) . s, so the ratio IS the base class,
+// recovered from a cover on which nothing is obstructed.
+type DeckRatio<G extends Chain0> = Mul<Sec<G>[3], Sec<G>[0]>;
+
+expect<DeckRatio<[1, 1, 1]>>(1);
+expect<DeckRatio<[1, 1, -1]>>(-1);
+// @ts-expect-error  on the Mobius band the two sheets do not agree
+expect<DeckRatio<[1, 1, -1]>>(1);
 
 // ── 6. The coefficients are Z/2 ───────────────────────────────────────
 
