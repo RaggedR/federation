@@ -41,6 +41,7 @@ Three documents work that out, and one program tests it.
 | [`federation.pdf`](federation.pdf) | *The Missing Trace.* Why a federation is not a composite. The obstruction is in the response direction: prompts travel round the cycle freely because the forward map is covariant, and the failure is entirely in the backward map. |
 | [`sheaf-federation.pdf`](sheaf-federation.pdf) | *A Sheaf Theory of Federation.* A federation is the claim that a presheaf is a sheaf. The obstruction is a class in `H^1`, and it is carried by `π₁`. Cycles do not merely fail to terminate. They act. |
 | [`seven-federations.pdf`](seven-federations.pdf) | *The Root Outside the Set.* Persia, Abraham, Muhammad, Putin, the USA, the EU and corporate mergers, each read as a repair of the same cyclic structure. |
+| [`mobius.pdf`](mobius.pdf) | *Möbius.* The program itself, in container language. What each fibre is, why the deck comparison needs two backward maps, and two appendices: containers in TypeScript via the dependent lookup, and why every node is a separate process. |
 
 ## The mathematics, which drove every decision
 
