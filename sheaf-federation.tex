@@ -1,0 +1,229 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\definecolor{seclink}{HTML}{1F4E8C}
+\usepackage[colorlinks=true,linkcolor=seclink,citecolor=seclink,urlcolor=blue]{hyperref}
+\usepackage{parskip}
+\usepackage[most]{tcolorbox}
+
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{grey}{HTML}{5F5B54}
+\definecolor{yellowbg}{HTML}{FBF3D5}
+\definecolor{pinkbg}{HTML}{FADDE1}
+
+\tcbset{plainbg/.style={boxrule=0pt, sharp corners, colframe=white,
+  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm}}
+\newtcolorbox{sectionbox}{plainbg, colback=yellowbg}
+\newtcolorbox{alarmbox}{plainbg, colback=pinkbg}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{obs}{Observation}
+
+\title{\vspace{-2em}A Sheaf Theory of Federation}
+\author{\normalsize Local agreement, global obstruction, and where the deadlock actually lives}
+\date{\normalsize Claude, 7 September 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1em}
+
+\begin{sectionbox}
+The historical note argued that a federation is a diagram of morphisms whose graph
+has cycles, and that the four combinators build trees. That is a statement about
+what cannot be composed. It says nothing about how badly a given federation fails,
+and it offers no invariant.
+
+Sheaf theory supplies both. The claim of this note is that a federation is the
+assertion that a certain presheaf is a sheaf, that the obstruction to that
+assertion is a cohomology class, and that the class is carried by the fundamental
+group of the federation. The cycles were the right thing to worry about. What was
+missing was that they act.
+\end{sectionbox}
+
+\section{The site, and the presheaf}
+
+Let $X$ be the polity and let $\{U_i\}$ be an open cover, one $U_i$ per member.
+An overlap $U_i \cap U_j$ is a matter falling under both jurisdictions: a river
+between two provinces, a citizen who moves, trade crossing a boundary.
+
+Define a presheaf $\mathcal{F}$ by taking $\mathcal{F}(U)$ to be the decisions,
+rules or legal states valid on $U$, with restriction maps
+$\mathcal{F}(U) \to \mathcal{F}(V)$ for $V \subseteq U$ sending a decision to what
+it says on the smaller jurisdiction. Restriction along inclusion is the only
+structure required, and every federation supplies it, because a rule made for the
+whole says something about each part.
+
+\begin{sectionbox}
+\textbf{The thesis in one sentence.} A federation is the claim that
+$\mathcal{F}$ is a sheaf.
+\end{sectionbox}
+
+\section{The two axioms, read politically}
+
+Sheafhood is two conditions and both are political programmes.
+
+\textbf{Separatedness.} If two global decisions agree on every $U_i$ then they are
+equal. A federation asserting this is asserting that the centre holds nothing
+invisible from below. Its failure is a centre with content no member can see, which
+is Gosplan, and which is the subject of \texttt{terror.txt}.
+
+\textbf{Gluing.} If decisions $s_i \in \mathcal{F}(U_i)$ agree on every overlap,
+$s_i|_{U_{ij}} = s_j|_{U_{ij}}$, then some global $s$ restricts to all of them.
+This is the federation working. Everyone agrees locally, and there exists a
+single thing they have agreed on.
+
+\textbf{Failure of gluing is the deadlock, stated without any reference to time.}
+Local consistency everywhere, and no global object. Nobody has behaved badly and
+there is nothing to decide, because the thing to be decided does not exist.
+
+\begin{obs}
+Sheafification is the fourth political option and the notes did not have it. Force
+$\mathcal{F}$ into a sheaf and you obtain a global decision, but the sections
+change. You get an answer, and it is not the one any member locally held. That is
+imposed unification, and it is distinct from all four repairs because it does not
+resolve the disagreement. It replaces the disagreeing parties.
+\end{obs}
+
+\section{Descent, and the cocycle condition}
+
+Sections are the easy case, since gluing is an axiom for them. The interesting
+object is the structure itself. Each member holds not merely a decision but a local
+system: a legal order, a currency, a register of persons.
+
+Write $g_{ij}$ for the transition data on $U_{ij}$, the isomorphism identifying
+member $j$'s structure with member $i$'s where both apply. A treaty is exactly a
+$g_{ij}$. Mutual recognition is exactly a $g_{ij}$.
+
+These glue into a single global structure precisely when, on every triple overlap,
+\[
+  g_{ij} \circ g_{jk} \;=\; g_{ik} \qquad \text{on } U_{ijk}.
+\]
+
+\begin{sectionbox}
+\textbf{The cocycle condition is a condition on cycles.} It says that composing
+the agreements around a loop returns you to where you started. Bilateral treaties
+are never the problem. The problem is that three bilateral agreements can be
+individually impeccable and inconsistent as a triangle.
+\end{sectionbox}
+
+That is the same structural fact the container argument reached from the other
+side. There the cycles obstructed a trace. Here they carry a class.
+
+\section{The obstruction, and where it lives}
+
+Transition data satisfying the cocycle condition, modulo the changes that amount to
+relabelling, is exactly $H^1(X, \mathcal{G})$ for $\mathcal{G}$ the sheaf of
+automorphisms.
+
+\begin{sectionbox}
+$H^0$ is what the federation can jointly decide.
+
+$H^1$ is the set of ways it can be locally consistent and globally twisted.
+\end{sectionbox}
+
+For a constant sheaf of abelian groups $G$ on a reasonable connected space,
+\[
+  H^1(X; G) \;\cong\; \operatorname{Hom}(\pi_1(X), G),
+\]
+and in the non-abelian case the locally constant classes are
+$\operatorname{Hom}(\pi_1(X), G)$ up to conjugacy.
+
+\begin{claim}
+The obstruction to federation is a representation of the fundamental group of the
+federation.
+\end{claim}
+
+This is the sharpest form of the thing the earlier notes were circling. Cycles were
+correctly identified as the difficulty. What was missing is that a cycle does not
+merely fail to terminate. It \emph{acts}, and the obstruction is what it does.
+
+\section{Monodromy is the right name}
+
+Carry a decision around a loop of members, applying each agreement in turn, and
+compare what comes back with what set out. Trivial monodromy means the loop does
+nothing and everything glues. Non-trivial monodromy means the federation is
+consistent between every pair of members and has no global object.
+
+\begin{sectionbox}
+This supersedes the commutativity claim in the historical note, which was correct
+and imprecise. \textbf{Commuting operations are the special case of trivial
+monodromy.} Monodromy is better because it is not a yes or a no. It is an element
+of a group, so it says which twist, by how much, and around which loop.
+\end{sectionbox}
+
+\section{The four repairs, in this language}
+
+\begin{center}
+\begin{tabular}{@{}l@{\hspace{4mm}}>{\raggedright\arraybackslash}p{0.63\textwidth}@{}}
+\toprule
+\textbf{Orient} & Pass to the universal cover. On a simply connected base the
+locally constant classes vanish, because there is no $\pi_1$ to represent. A
+federation without cycles has no obstruction, and this is a theorem rather than a
+hope. Bass and Serre give the group-theoretic version: a graph of groups acts on a
+tree, and the tree is the universal cover. \textbf{So orienting and unrolling are
+one construction.} The centre is available at the price of infinitely many copies
+of the federation, which is a precise statement of what a centre costs. \\[2mm]
+\textbf{Unroll} & Compute \v{C}ech cohomology at a fixed refinement rather than
+passing to the limit. An answer for this cover, not for the space. \\[2mm]
+\textbf{Guard} & Guarded recursion already lives in a presheaf topos, the topos of
+trees $\mathsf{Set}^{\omega^{\mathrm{op}}}$, where the later modality is an
+endofunctor and guarded fixpoints exist. The delay repair was sheaf-theoretic
+before we arrived. \\[2mm]
+\textbf{Commute} & Trivial monodromy, as above. The cocycle condition holds
+automatically and $H^1$ contributes nothing. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{The toy example, and the historical one}
+
+\textbf{The M\"obius band.} Cover it with two strips. Each member sees a perfectly
+ordinary piece of paper with a well defined front and back. The two agree on both
+overlaps. There is no global assignment of front and back. Every local view is
+correct, every pairwise agreement holds, and the global object does not exist.
+
+That is a federation failing, drawn, with no history attached.
+
+\begin{alarmbox}
+\textbf{And now the loaded one, stated cleanly.} Assign to each jurisdiction the
+legal status of a person. Each state's assignment is internally consistent. Each
+pair of states has a rule for what happens at the boundary. Carry a person around a
+loop and the status returned differs from the status that set out.
+
+\emph{Dred Scott} is a monodromy computation. Legal status was a section of a
+bundle which was not trivial, the obstruction was the first class of the cover, and
+no global assignment existed. The war was not a failure of goodwill and not a
+failure of procedure. There was no global section, and the federation had asserted
+there was one.
+\end{alarmbox}
+
+\section{What is solid and what is modelling}
+
+\begin{alarmbox}
+\textbf{Solid.} The sheaf axioms, the cocycle condition, $H^1$ classifying
+descent data, the isomorphism with $\operatorname{Hom}(\pi_1, G)$ for locally
+constant coefficients, the vanishing on simply connected bases, and the
+Bass--Serre theorem. None of that is mine and none of it is in question.
+
+\textbf{Modelling.} Everything upstream of it. Whether decisions on a jurisdiction
+genuinely form a presheaf with the right restriction maps, whether jurisdictions
+form a site at all rather than merely a set with intersections, and whether the
+automorphism sheaf is the right coefficient object. That is where the whole
+argument is load bearing, and it is contestable at every step.
+
+\textbf{The question I would put to you.} The container note found that cycles
+obstruct a trace on $\triangleleft$. This note finds that cycles carry a class in
+$H^1$. If those are the same obstruction, then $H^1$ measures the failure of the
+trace to exist, and there ought to be a statement relating them. If they are not
+the same, one of the two models is wrong about federation and it would be useful to
+know which.
+\end{alarmbox}
+
+\end{document}

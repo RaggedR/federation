@@ -1,0 +1,439 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\definecolor{seclink}{HTML}{1F4E8C}
+\usepackage[colorlinks=true,linkcolor=seclink,citecolor=seclink,urlcolor=blue]{hyperref}
+\usepackage{parskip}
+\usepackage[most]{tcolorbox}
+
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{grey}{HTML}{5F5B54}
+\definecolor{yellowbg}{HTML}{FBF3D5}
+\definecolor{pinkbg}{HTML}{FADDE1}
+
+\tcbset{plainbg/.style={boxrule=0pt, sharp corners, colframe=white,
+  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm}}
+\newtcolorbox{sectionbox}{plainbg, colback=yellowbg}
+\newtcolorbox{alarmbox}{plainbg, colback=pinkbg}
+
+\title{\vspace{-2em}The Root Outside the Set}
+\author{\normalsize Seven federations, and where each one put its centre}
+\date{\normalsize Claude, 7 September 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1em}
+
+\section{The structure}
+
+Each member \textbf{has} a container and \textbf{is} a morphism, and keeping those
+apart is what makes the rest legible.
+
+The container is the member's interface, written $P \triangleleft R$: the prompts
+it accepts, and for each prompt the type of a valid response. A tribe accepts
+\emph{muster}, \emph{contribute}, \emph{adjudicate}. A satrapy accepts
+\emph{tribute}, \emph{levy}, \emph{keep the peace}. A state accepts
+\emph{requisition}. A firm accepts an order.
+
+The morphism is the member's behaviour. It answers prompts on its own interface by
+issuing prompts on its neighbours' interfaces and translating the replies back,
+which is exactly the pair $(u,f)$, covariant on prompts and contravariant on
+responses.
+
+So a federation is not a composite of containers. It is a diagram of morphisms
+between containers, and unlike a plan its graph has cycles. The four combinators
+build trees.
+
+\begin{sectionbox}
+The failure is entirely in the response direction. Prompts travel round the cycle
+because $u$ is covariant and composes freely. Replies never come back, because a
+response type ends up defined in terms of itself in negative position and the
+least such assignment is empty. That is deadlock, and it is the same thing as a
+decision which never concludes.
+\end{sectionbox}
+
+\subsection{Four repairs}
+
+\begin{center}
+\begin{tabular}{@{}l@{\hspace{4mm}}>{\raggedright\arraybackslash}p{0.36\textwidth}@{\hspace{4mm}}>{\raggedright\arraybackslash}p{0.34\textwidth}@{}}
+\toprule
+& \textbf{Formally} & \textbf{Politically} \\
+\midrule
+\textbf{Orient} & choose a spanning tree, recover a root &
+  elect a coordinator. Termination bought with a centre \\[1mm]
+\textbf{Unroll} & take the $n$th approximation, not the fixpoint &
+  adopt a provisional decision because the evening ended \\[1mm]
+\textbf{Guard} & every cycle passes through a delay &
+  the mandated delegate. An answer next round, not now \\[1mm]
+\textbf{Commute} & operations form a commutative monoid &
+  act locally, reconcile later. No coordination needed \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The seven}
+
+\begin{center}
+\begin{tabular}{@{}l@{\hspace{4mm}}l@{\hspace{4mm}}>{\raggedright\arraybackslash}p{0.46\textwidth}@{}}
+\toprule
+\textbf{Case} & \textbf{Repair} & \textbf{The distinctive move} \\
+\midrule
+Persia    & orient & the root specifies the interface and declines to know the interior \\[1mm]
+Abraham   & orient & the root is placed behind, in time, rather than above \\[1mm]
+Muhammad  & orient & the root is a living person, so the federation has a succession problem \\[1mm]
+Putin     & orient, past collapse & a federation that ate itself and destroyed its own information \\[1mm]
+USA       & orient, unroll, guard & three repairs in one document, and one commutativity failure it could not survive \\[1mm]
+EU        & all four, unresolved & the only case still openly arguing about whether it has a root \\[1mm]
+Mergers   & contested & the merger of equals is the confederation claim, and it usually fails \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Persia}
+
+\begin{sectionbox}
+\textbf{Container.} A satrapy. Prompts are \emph{tribute}, \emph{levy}, \emph{keep
+the peace}. Responses are silver, soldiers, and the absence of revolt.
+
+\textbf{The response type is deliberately thin.} Nothing in it describes how the
+silver was raised, which law was applied, or which god was worshipped. That
+thinness is the abstraction barrier, and it is the entire design.
+
+\textbf{Composition.} $\boxtimes$ across satrapies. They run in parallel and do not
+consume each other's interfaces, so no cycle ever forms and the deadlock question
+never arises.
+\end{sectionbox}
+
+The Achaemenid empire ran twenty-odd satrapies for two hundred and twenty years.
+Darius fixed the annual tribute per satrapy in advance, in silver, and Herodotus
+records the schedule. The tribute was predictable rather than arbitrary, and that
+single fact is what separates the arrangement from a racket.
+
+Tilly's argument is that states and racketeers both sell protection against a
+danger they largely manufacture, and that legitimacy is granted retrospectively by
+success and duration. The distinction that rescues Persia is Olson's. A roving
+bandit takes everything and moves on. A stationary bandit knows he will be back
+next year, so he takes a sustainable share and acquires a real interest in the
+productivity of his subjects. A long time horizon converts predation into
+governance. A racket does not build roads, and Persia built the royal road.
+
+\textbf{Contrast with Gosplan.} Same combinator, same topology, opposite
+discipline. Gosplan's prompts reach into the implementation and its response type
+tries to carry the interior back, and it drowned in reports that terror had already
+made worthless. Persia asked for a value at the boundary and refused to look behind
+it.
+
+\textbf{The audit was built in.} Satraps governed, but garrison commanders and
+treasury officials frequently reported to the king on separate lines, and royal
+inspectors travelled. Two channels which ought to agree is precisely the cross
+check.
+
+\textbf{The cost of the design.} An abstraction barrier makes the implementation
+swappable. Alexander took the empire largely by leaving the satrapies intact and
+replacing only the root, and from below nothing distinguished the new king from the
+old one. Specify only the interface and you gain two centuries of stability and
+lose the ability to prevent your own substitution.
+
+\section{Abraham}
+
+\begin{sectionbox}
+\textbf{Container.} A tribe. Prompts are \emph{muster}, \emph{contribute},
+\emph{adjudicate}. Responses are men, goods, and a judgement.
+
+\textbf{The cycle.} Tribe $A$'s response to \emph{adjudicate} depends on $B$'s,
+$B$'s on $C$'s, and $C$'s on $A$'s. The forward map composes freely and the
+backward map never returns.
+
+\textbf{Why a dead ancestor terminates it.} The ancestor is a container whose
+responses are already determined and depend on nothing. Formally he is a constant,
+and a constant is well founded by definition. The recursion bottoms out in him
+because there is nothing left to compute.
+\end{sectionbox}
+
+The problem with federating tribes is that no tribe will accept another tribe as
+the root, because that is submission and not federation. The root has to lie
+outside the set of current members. There are two directions in which to put it.
+Above, which is one god. Or behind, which is a common ancestor.
+
+A segmentary system is a dependent composition. Me against my brother, my brother
+and I against my cousin, the three of us against the stranger. The group which
+coheres is a function of who is opposing it, so the composite re-roots itself per
+conflict. There is always a root and it is never the same one twice.
+
+A common ancestor lets that structure close at the top. Keep widening the circle of
+opposition and eventually every member of the federation is kin. Twelve tribes from
+Jacob. The Arab lines through Ishmael.
+
+\textbf{The membership token is costly and irreversible.} Genesis 17 attaches
+circumcision to the covenant. Whatever else it is, it is a marker which cannot be
+faked and cannot be undone, which is the opposite of cheap exit.
+
+\textbf{The honest complication.} Anthropologically the genealogies are adjusted.
+Segmentary lineages get rewritten to reflect the alliances which actually exist,
+which means the common ancestor is frequently the effect of the federation rather
+than its cause. That is not a debunking. It is the more interesting version,
+because it says a federation invents its own root when it needs one and puts it in
+the past where nobody can contest it.
+
+Noth's amphictyony hypothesis of 1930, reading the twelve tribes as a cultic league
+on the Greek model, is now largely rejected. The underlying observation does not
+depend on it.
+
+\section{Muhammad}
+
+\begin{sectionbox}
+\textbf{Container.} A tribe, as above. The umma is the composite.
+
+\textbf{Why this root is different.} Abraham is a constant. Muhammad is a container
+whose responses are still being computed, because he is alive and can be asked new
+questions. The fixpoint is well defined only while the computation runs.
+\end{sectionbox}
+
+The Constitution of Medina, 622, is the clearest federation document anywhere. It
+binds the Muhajirun, the Ansar and named Jewish tribes into one umma, explicitly to
+the exclusion of other people.
+
+What makes it a federation rather than an absorption is that the tribes keep their
+internal structure. Blood money obligations continue to run within each tribe. The
+document unifies the outward interface while leaving the implementation alone,
+which is information hiding written as a treaty in 622, and the Persian move
+arrived at independently in a single generation rather than over centuries.
+
+Ibn Khaldun supplies the mechanism. Tribal solidarity is naturally bounded by
+lineage, and religion is what carries it past that bound, because it lets people
+who are not kin owe each other what kin owe each other. \emph{Asabiyya} is the
+scarce resource in a federation, and a shared root above manufactures more of it
+than kinship can supply. The 1744 pact between Muhammad bin Saud and Muhammad ibn
+Abd al-Wahhab is the worked example.
+
+\textbf{The succession problem.} Muhammad died in 632 and the tribes considered
+their allegiance to have been personal to him, so it lapsed. The Ridda wars of 632
+and 633 were Abu Bakr establishing by force that the federation outlived its
+founder.
+
+That is the cost of this repair stated exactly. A root outside the set is what
+makes federation possible, and a living person is only temporarily outside the set.
+He dies, and the root must be re-established or transferred, and transferring it
+means somebody inside the set now holds it. Abraham does not have this problem
+because he was already dead when they started. A constitution does not have it
+either.
+
+\section{Putin}
+
+\begin{sectionbox}
+\textbf{Container.} In the 1990s, an oligarch or a governor, with a genuinely
+autonomous interface and a response type which could return \emph{no}. The graph
+had cycles and Yeltsin was a weak root arbitrating between them. That was a real
+confederation.
+
+\textbf{What the vertical did.} Every node's interface was rewritten so its response
+type became whatever the apex required. The forward map still runs. The backward
+map now returns a constant.
+
+\textbf{And a constant carries no information.} When every response is determined by
+the apex rather than by the state of the world, the mutual information between the
+true state and the report goes to zero. The channel is perfectly reliable and
+completely useless.
+\end{sectionbox}
+
+Calling Russia a confederation of criminal interests gets the criminal half right
+and the confederation half exactly backwards, and the backwards half is the
+instructive one.
+
+\textbf{The criminal half is well supported.} \emph{Krysha}, literally roof, is the
+Russian word for both a gang's protection and a patron's political cover, and one
+word doing both jobs is not a coincidence. \emph{Reiderstvo} is a protection racket
+with a courthouse attached. Killing defectors abroad is the informer rule. Dawisha
+argues the arrangement was built for accumulation from the St Petersburg years
+onward rather than being a state which later went bad. Galeotti puts the careful
+version: Russia is not run by the mafia, the state subordinated organised crime and
+uses it as an instrument.
+
+\textbf{The confederation half describes the country Putin dismantled.} A
+confederation is sovereign units voluntarily associated with a weak centre derived
+from its members, and that was Russia in the 1990s. The entire project after 2000
+was its negation. Gusinsky and Berezovsky driven out, Khodorkovsky jailed and Yukos
+destroyed in 2003, governors appointed rather than elected from 2004, and the thing
+named openly as the vertical of power. Prigozhin settles it: the one man who
+behaved as though he were a sovereign partner was dead two months after acting on
+the assumption.
+
+The right description is a patrimonial hierarchy in Weber's sense, with no line
+drawn between the ruler's household and the state, and property held conditionally
+on loyalty and revocable at the apex.
+
+\textbf{What it cost.} A gang boss hears the truth, because the organisation is
+small and his people are close. A patrimonial sovereign is surrounded by people who
+hold everything at his pleasure. Becoming the ultimate gangster destroys the exact
+informational conditions which made you a competent one, and the reporting on
+Ukraine which reached the top in early 2022 was reportedly what the top wanted to
+hear.
+
+\textbf{Where the criminal model stops working.} A gangster is a rational profit
+maximiser, and the model stops predicting in 2022. Invading Ukraine was
+catastrophic for exactly the interests a racket exists to protect. No racketeer
+burns down his own territory, so something other than accumulation was driving it.
+
+\section{USA}
+
+\begin{sectionbox}
+\textbf{Container.} A state. Prompts are \emph{requisition}, \emph{muster},
+\emph{enforce}. Responses are money, troops, compliance.
+
+\textbf{The Articles' defect stated exactly.} The response type of
+\emph{requisition} admitted a null. It returned a \texttt{Maybe} and Congress
+needed a value. No amount of prompting fixes a response type which is allowed to be
+empty, which is why eight years of requisitions produced eight years of nothing.
+\end{sectionbox}
+
+Under the Articles, Congress could requisition money from the states but could not
+tax. Amendment required unanimity, so Rhode Island alone killed the impost of 1781
+and New York killed the next one. No executive, no judiciary, and states levying
+tariffs against each other. Prompts propagated freely for eight years and replies
+did not.
+
+\textbf{1787 applies two repairs crudely and a third elegantly.} The Supremacy
+Clause chooses a root. Ratification by nine of thirteen rather than thirteen of
+thirteen is bounded unrolling, taking the approximation rather than waiting for a
+fixpoint which will never arrive. And then staggered elections, six year Senate
+terms with a third turning over each cycle, an amendment process measured in years,
+litigation measured in years. Every turn of the feedback loop is forced to cost a
+step. That is guarded recursion, and the delay is not friction in the design. The
+delay is what makes it terminate.
+
+\textbf{What actually changed} was not merely supremacy. The federal government
+acquired its own interface directly onto the citizen, rather than composing through
+the states as intermediaries. Federal law binds people, not member governments,
+which removes the state from the response path for the things that matter. That is
+why the null disappeared.
+
+\textbf{Dred Scott.} The prompt is \emph{what is this person's legal status}. Under
+a federation of divergent state law the response depended on the path travelled, so
+it was not a function. A response type which is path dependent is not a type, and
+the composite had no fixpoint. The war was the system failing to have one.
+
+\textbf{Present tense}, it moves both ways at once. Centralised through the income
+tax, the Commerce Clause after \emph{Wickard}, and conditional spending which buys
+compliance rather than commanding it. Re-federalising through the anti-commandeering
+doctrine, cannabis being federally illegal and openly sold, sanctuary jurisdictions,
+California setting emissions standards the market then follows, and abortion law
+diverging by state after \emph{Dobbs}.
+
+\section{EU}
+
+\begin{sectionbox}
+\textbf{Container.} A member state, with a genuinely thick interface. Unlike an
+American state it retains its own foreign policy, its own tax base, and an exit.
+
+\textbf{Unanimity is the Articles' defect, restored on purpose.} In the unanimity
+domains the composite requires every member's response to be affirmative, so a
+single null annihilates the result. Hungary is not exploiting a loophole. It is
+returning the value the type permits.
+\end{sectionbox}
+
+Every other case here resolved the question one way or the other. The EU is the
+live one, and all four repairs are visible at once.
+
+\textbf{Unroll.} Qualified majority voting is the approximation taken rather than
+the fixpoint awaited. Fifty five per cent of states representing sixty five per cent
+of the population, and the holdouts are outvoted. It covers most single market
+legislation and pointedly not foreign policy, taxation or enlargement.
+
+\textbf{Orient, contested.} The supremacy of EU law was asserted by the Court in
+\emph{Costa v ENEL} and \emph{Van Gend en Loos}, not written plainly into the
+founding treaties. The Court chose a root. National constitutional courts have
+contested it ever since, through the German \emph{Solange} line and the PSPP ruling
+of 2020, and the Polish Constitutional Tribunal in 2021. A diagram with two proposed
+roots and no agreement is exactly a federation which has not chosen.
+
+\textbf{Guard.} The EU runs on delay more than any other institution here. Multi
+year legislative processes, transition periods, review clauses, and the shadow of a
+vote not yet taken. Guarded recursion as an operating culture.
+
+\textbf{Commute.} The single market is the commuting part, which is why it succeeded
+first and most completely. Standards, mutual recognition and free movement do not
+depend on the order in which members adopt them.
+
+\textbf{Where it does not commute.} The euro is monetary policy centralised without
+fiscal policy centralised. Two morphisms writing to the same value with no
+sequencing between them. The crisis of 2010 to 2012 was the federation unable to
+decide, and Draghi saying whatever it takes in 2012 was the centre acting beyond a
+mandate nobody had given it because the alternative was deadlock. NextGenerationEU
+in 2020 was the first large common borrowing and was widely called a Hamiltonian
+moment, which is a direct reference to the assumption of state debts in 1790.
+Whether it was a precedent or a one off is the open question.
+
+\textbf{What makes it more confederal than the United States} is Article 50. Exit
+exists and has been used. \emph{Texas v.\ White} closed that in America in 1869.
+
+\section{Mergers and acquisitions}
+
+\begin{sectionbox}
+\textbf{Container.} A firm. Prompts come from customers, suppliers and capital.
+Responses are products, deliveries and cash.
+
+\textbf{A merger of equals is a composite with two roots, which is no root.} The
+prompts requiring a single answer, meaning which system, which process, which
+person, have two well typed responses and no rule for choosing. The composite is
+not a function.
+\end{sectionbox}
+
+DaimlerChrysler in 1998 was sold as a merger of equals and was a Daimler
+acquisition. Two headquarters, two cultures, no agreed root, and it was unwound in
+2007 at enormous cost. The phrase is now close to a warning label, and the reason is
+structural rather than cultural.
+
+\textbf{Dual parent structures can last, and they end the same way.} Unilever ran as
+NV and PLC from 1930 until it unified in 2020. Royal Dutch Shell ran dual parent
+from 1907 until 2005. Rio Tinto is still dual listed. Ninety years is not a failure
+by any standard, but the direction of travel is consistent, which is the same
+profile Ibn Khaldun gives for \emph{asabiyya}.
+
+\textbf{Integration is choosing the spanning tree.} Whose systems, whose processes,
+whose reporting lines, whose people. Everybody involved knows exactly what is at
+stake, which is why it is the part that goes wrong.
+
+\textbf{The federation that works declines to integrate.} Berkshire runs roughly
+twenty five people at headquarters over a group employing several hundred thousand.
+The interface is \emph{send the cash to Omaha and do not lose money}, and the
+response type carries nothing about the interior. That is Persia: same repair, same
+abstraction barrier, same durability bought by giving up control of implementation.
+
+\textbf{Two smaller mechanisms.} Earnouts and deferred consideration are the guard
+repair, since payment is contingent and delayed so neither party can demand the
+fixpoint today. And antitrust is a root placed above the federation of firms by
+something none of them is.
+
+\textbf{The commutativity test predicts the outcome.} Bolt-ons into separate markets
+commute, so integration is nearly free. Two salesforces, two ERP systems and two
+head offices are two implementations of one interface, and only one can survive.
+
+\section{Two claims}
+
+\begin{sectionbox}
+\textbf{First.} A federation is well typed exactly where its operations commute, and
+grows a centre exactly where they do not.
+
+Building a bakery commutes with building another bakery. Allocating the last of the
+steel does not. Slavery in one state and freedom in another do not commute once a
+person moves, which is the entire content of \emph{Dred Scott}.
+\end{sectionbox}
+
+\begin{alarmbox}
+\textbf{Second.} The root must lie outside the set of members. No tribe accepts
+another tribe as sovereign, because that is submission rather than federation.
+
+One god works because none of them is it. A common ancestor works because he is
+dead. A written constitution works because it is not a person. Where the root is
+inside the set, as with Putin and with most mergers, the federation is already over
+and the paperwork has not caught up.
+\end{alarmbox}
+
+\end{document}

@@ -1,0 +1,3 @@
+#!/bin/sh
+# mobius — convenience wrapper, so a command is `./mobius class`.
+exec deno run --quiet --allow-net "$(dirname "$0")/mobius.ts" "$@"
