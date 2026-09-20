@@ -19,7 +19,9 @@
 \definecolor{pinkbg}{HTML}{FADDE1}
 
 \tcbset{plainbg/.style={boxrule=0pt, sharp corners, colframe=white,
-  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm}}
+  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm,
+  parbox=false,
+  before upper={\setlength{\parskip}{0.75\baselineskip}\setlength{\parindent}{0pt}}}}
 \newtcolorbox{sectionbox}{plainbg, colback=yellowbg}
 \newtcolorbox{alarmbox}{plainbg, colback=pinkbg}
 
