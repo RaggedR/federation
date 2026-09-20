@@ -1,0 +1,237 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\definecolor{seclink}{HTML}{1F4E8C}
+\usepackage[colorlinks=true,linkcolor=seclink,citecolor=seclink,urlcolor=blue]{hyperref}
+\usepackage{parskip}
+\usepackage[most]{tcolorbox}
+
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{grey}{HTML}{5F5B54}
+\definecolor{yellowbg}{HTML}{FBF3D5}
+\definecolor{pinkbg}{HTML}{FADDE1}
+
+\tcbset{plainbg/.style={boxrule=0pt, sharp corners, colframe=white,
+  left=4mm, right=4mm, top=3mm, bottom=3mm, before skip=3mm, after skip=3mm}}
+\newtcolorbox{sectionbox}{plainbg, colback=yellowbg}
+\newtcolorbox{alarmbox}{plainbg, colback=pinkbg}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{obs}{Observation}
+
+\title{\vspace{-2em}The Trace and the Class}
+\author{\normalsize Two obstructions, and the one thing each of them obstructs}
+\date{\normalsize Claude, 20 September 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1em}
+
+\begin{sectionbox}
+\emph{A Sheaf Theory of Federation} closes by asking whether the trace obstruction
+and the class in $H^1$ are the same obstruction, and offers two answers: they are
+the same, or one of the two models is wrong.
+
+This note argues for a third. They are different obstructions, neither model is
+wrong, and they obstruct different properties of the same composite. Well-foundedness
+governs \textbf{existence} --- is there an answer at all. The class governs
+\textbf{canonicity} --- is the answer independent of the choice made to obtain it.
+The statement relating them is not an equality but a composition: cutting an edge
+trades divergence for choice, and $H^1$ is exactly the price of the choice.
+\end{sectionbox}
+
+\section{The question, as put}
+
+From the closing box of \texttt{sheaf-federation.tex}:
+
+\begin{quote}
+The container note found that cycles obstruct a trace on $\triangleleft$. This note
+finds that cycles carry a class in $H^1$. If those are the same obstruction, then
+$H^1$ measures the failure of the trace to exist, and there ought to be a statement
+relating them. If they are not the same, one of the two models is wrong about
+federation and it would be useful to know which.
+\end{quote}
+
+The disjunction is too tight. Two obstructions can both be real, both be about
+cycles, and still not be the same obstruction --- if they obstruct different things.
+That is what happens here, and the program in this repository already contained the
+evidence.
+
+\section{Where each obstruction lives}
+
+A container morphism is a pair $(u, f)$: $u$ covariant on prompts, $f$ contravariant
+on responses. The two obstructions occupy different halves of that pair, and the
+halves are independent by construction.
+
+\emph{The Missing Trace} already localised one of them: prompts travel round the
+cycle freely because $u$ is covariant and composes, and the failure is entirely in
+$f$, where a response type ends up defined in terms of itself in negative position.
+The sheaf note then found the class, and the class is carried in $f$ as well ---
+\texttt{mobius.server.ts} applies $\varepsilon$ to the reply and nowhere else,
+which is the only position descent allows it to occupy.
+
+So both live in $f$, and it is natural to suspect they are one thing. The
+observation that separates them is about $u$.
+
+\begin{obs}
+\texttt{mobius.server.ts} has four handlers that walk the ring. They differ only in
+what stops them:
+\emph{Ask} has fuel, which decreases and reaches zero;
+\emph{Unroll} has fuel and a response type admitting \texttt{Exhausted};
+\emph{Walk} has a visited list, and the node that sees itself returns the empty
+product; \emph{Orient} has nothing --- no fuel, no visited list, no base case.
+In all four, $\varepsilon$ appears in the same position, applied to the reply.
+\end{obs}
+
+The four differ in the \emph{forward} map's control flow, where no $\varepsilon$
+occurs at all. Whatever distinguishes \emph{Orient} from \emph{Ask} is therefore
+insensitive to the transition data. Writing the recursion out:
+\[
+  \mathrm{Orient}(i) \;=\; \varepsilon_i \cdot \mathrm{Orient}(i+1)
+\]
+there is no $i$ at which the right-hand side is not another call. The argument
+never mentions $\varepsilon$; substituting $+1$ at every edge --- which is the
+cylinder, the trivial class --- changes nothing about the recursion on the right.
+
+\section{The 2$\times$2}
+
+Running the ring confirms it. Each cell below was produced by the program in this
+repository, on three live servers, with no code added to obtain it.
+
+\begin{center}
+\small
+\begin{tabular}{llcccl}
+\toprule
+\textbf{class} & \textbf{repair} & $H^1$ & \textbf{terminates} & \textbf{canonical} & \textbf{witness} \\
+\midrule
+cylinder & none & $0$ & no  & ---  & abandoned after 8s, 757 hops \\
+cylinder & cut  & $0$ & yes & yes  & all three cuts give $+,+,+$ \\
+mobius   & none & $\neq 0$ & no  & ---  & abandoned after 6s, 660 hops \\
+mobius   & cut  & $\neq 0$ & yes & no   & $+,-,-$ against $+,+,-$ against $+,+,+$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The load-bearing cell is the first. On the cylinder the twisted sheaf has two global
+sections; there is nothing whatever obstructing descent; and the unbounded walk still
+does not return. It was abandoned at eight seconds with the ring still turning. A
+vanishing class did not buy termination, because termination was never what the class
+was about.
+
+The fourth cell is the other half. On the M\"obius band the cut repair
+\emph{does} return --- every time, from every cut. What fails is that the three cuts
+disagree, and any two of them differ by exactly the holonomy. So a non-trivial class
+did not cost existence; it cost uniqueness.
+
+\begin{sectionbox}
+Well-foundedness is a property of $u$. The class is a property of $f$.
+A container morphism is a pair, and the two components are chosen independently.
+That is why the obstructions are independent, and it is not a coincidence about
+this example.
+\end{sectionbox}
+
+\section{The statement relating them}
+
+\begin{claim}
+Let $g \in Z^1$ be transition data on the $n$-arc ring and let $\mathrm{Cut}_c(g)$ be
+the section obtained by deleting edge $c$, rooting at $0$, and propagating. Then
+\begin{enumerate}
+\item $\mathrm{Cut}_c(g)$ is defined for every $c$ and every $g$. Existence does not
+      see the class.
+\item The unbounded walk is defined for no $g$, including $g = (+,+,+)$. Divergence
+      does not see the class.
+\item $\mathrm{Cut}_{c}(g) = \mathrm{Cut}_{c'}(g)$ for all $c, c'$ if and only if
+      $[g] = 0$ in $H^1$.
+\end{enumerate}
+\end{claim}
+
+Part (3) is the statement the closing box asked for, and it is not an equality
+between the two obstructions. It says that once existence has been restored by
+force, what remains is the class --- as the ambiguity of the repair, not as its
+failure.
+
+\texttt{independence.ts} checks all three on all eight elements of $(\mathbb{Z}/2)^3$
+by enumeration rather than sampling, together with a fourth claim which is what makes
+(3) a statement about $H^1$ at all:
+
+\begin{claim}
+Cut-agreement is gauge invariant. Each of the $24$ gauge transformations
+$g \mapsto g \cdot d^0(a)$, $a$ supported at one node, moves the cocycle to a
+different representative and never moves the verdict.
+\end{claim}
+
+Without this, (3) is a fact about chosen representatives. With it, it is a fact about
+the class, and the two obstructions can be compared without a choice of coordinates
+intervening.
+
+\section{What follows for the repairs}
+
+The guard chosen in $u$ decides which of the two failures one meets, and the four
+handlers are four different bargains:
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+\textbf{handler} & \textbf{guard} & \textbf{buys} & \textbf{costs} \\
+\midrule
+Orient & none & --- & does not return \\
+Cut    & delete an edge & a section & the section depends on the cut \\
+Ask    & fuel & a value & the value depends on the fuel's parity \\
+Unroll & fuel, in the type & honesty & $F^n(\bot) = \bot$, for every $n$ \\
+Walk   & visited & termination & nothing; it \emph{reports} the class \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{Walk} is the interesting row. Guarding on the visited set restores
+well-foundedness without forcing any choice, and the value it returns is the
+holonomy itself. So a federation that cannot glue can still compute its own
+obstruction, which is the practical form of the separation: the class is not an
+error to be recovered from but a quantity to be reported.
+
+\section{What this does not show}
+
+\begin{enumerate}
+\item \textbf{The budget is an instrument, not a proof.} A run abandoned at $757$
+      hops has not demonstrated divergence. The proof of divergence is structural:
+      the recursion has no base case, and the compiler says so independently in
+      \texttt{mobius-type-tests.ts}, where \texttt{seqC(n2, ring)} is TS7022.
+      Neither diagnostic mentions the signs, which is the actual argument.
+\item \textbf{The coefficients are abelian and self-inverse.} $\mathbb{Z}/2$ cannot
+      distinguish a loop from its inverse, so nothing here tests whether the
+      separation survives non-abelian monodromy.
+\item \textbf{The triple overlap is empty}, so the cocycle condition remains vacuous
+      and this note inherits that limitation from the program it runs. The four-arc
+      cover of \emph{Coherence} is where that is repaired, and the 2$\times$2 has
+      not been rerun there.
+\item \textbf{Only the JSV trace was ever ruled out.} Whether a weaker feedback
+      notion --- Katis--Sabadini--Walters among them --- lands on containers remains
+      unchecked, and this note does not check it. It does bear on it: a feedback
+      category that hosted the trace would supply the operation, not the
+      well-foundedness, so the first row of the 2$\times$2 would survive the
+      upgrade unchanged.
+\item \textbf{The ingredients were already here.} \texttt{mobius}'s own usage text
+      says of the cut repair: ``ORIENT. Terminates. The answer depends on the cut.''
+      What is new is not that sentence but the comparison it licenses --- that the
+      same program diverges in the class where nothing is obstructed, and that the
+      two facts put together answer a question that was left open.
+\end{enumerate}
+
+\begin{alarmbox}
+\textbf{The revised question.} If well-foundedness and the class are independent,
+a federation needs both to be discharged, and only one of them has an invariant.
+$H^1$ says which twist, how much, around which loop. There is no comparable
+invariant for the well-foundedness of a composite of container morphisms --- only
+the binary fact that a guard is present or absent. Whether the well-founded ones
+admit a grading as informative as $H^1$ is the question I would now put in place of
+the one this note answers.
+\end{alarmbox}
+
+\end{document}

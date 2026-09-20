@@ -34,7 +34,7 @@ prompts on its neighbours' and translating the replies back.
 So a federation is not a composite of containers. It is a diagram of morphisms between
 containers, and its graph has cycles. The four combinators build trees.
 
-Three documents work that out, and one program tests it.
+Documents work that out, and one program tests it.
 
 | | |
 |---|---|
@@ -44,6 +44,7 @@ Three documents work that out, and one program tests it.
 | [`coherence.pdf`](coherence.pdf) | *Coherence.* A and B federate, B and C federate, A and C does not. That is the cocycle condition failing, which is a degree above the obstruction this program computes. Shows that a three-patch cover cannot exhibit both failures, gives a verified four-arc cover that can, and identifies when compartmentalisation is unavailable. |
 | [`almost-computable.pdf`](almost-computable.pdf) | *Almost Computable.* The Myhill–Nerode refinement of the path directed container of a graph produces this ring's double cover, node for node, with the section as its state set. Corrects the claim that a centre costs infinitely many copies: it costs the order of the holonomy. |
 | [`mobius.pdf`](mobius.pdf) | *Möbius.* The program itself, in container language. What each fibre is, why the deck comparison needs two backward maps, and two appendices: containers in TypeScript via the dependent lookup, and why every node is a separate process. |
+| [`trace-and-class.pdf`](trace-and-class.pdf) | *The Trace and the Class.* Answers the question `sheaf-federation` left open. The two obstructions are independent and obstruct different properties: well-foundedness governs existence, the class governs canonicity. The unbounded walk diverges on the cylinder, where nothing is obstructed; the cut repair returns in both classes and differs only in whether the answer depends on the cut. `independence.ts` checks it on all eight cocycles. |
 
 ## The mathematics, which drove every decision
 
